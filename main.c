@@ -36,7 +36,6 @@ int main(int argc, char *argv[]){
 		gtk_container_add(GTK_CONTAINER(map->window), map->menu_polozenie);
 		gtk_container_add(GTK_CONTAINER(map->menu_polozenie), map->menu);
 
-
 	g_signal_connect(G_OBJECT(map->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 	gtk_widget_show_all (map->window);
 	gtk_main ();
