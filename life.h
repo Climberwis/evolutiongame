@@ -1,5 +1,5 @@
 typedef struct{
-	GtkWidget 	*window;
+	GtkWidget *window;
 	GtkWidget *menu, *menu_polozenie;
 	GtkWidget *spiece_choose, *spiece_name;
 	GtkWidget *size, *map_size, *start_button, *stop_button;
