@@ -19,8 +19,7 @@ int main(int argc, char *argv[]){
 	create_map(map);
 
 	/*Creating Menu*/
-		map->menu = gtk_vbox_new(TRUE, 1);
-		gtk_widget_set_size_request(map->menu, 150, 50); 
+		map->menu = gtk_vbox_new(TRUE, 1); 
 		map->labels = gtk_label_new("Choose the spieces:"); gtk_container_add(GTK_CONTAINER(map->menu), map->labels);
 		map->spiece_choose = gtk_combo_box_new_text();
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "PLANT");

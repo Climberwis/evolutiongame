@@ -21,8 +21,10 @@ for(i=0;i<255;i++)
 
 void create_buf(Maps *maps){}
 
-void cp_mapbuf(Maps *maps){}
-/*int i=0;
-	for(i=0;i<=map->*/
+void cp_mapbuf(Maps *maps){
+int i=0;
+	for(i=0;i<=maps->map_size;i++)
+	maps->map[i]=maps->buf[i];
+}
 
 void printmap(GtkWidget *game_window, Maps *maps){}
