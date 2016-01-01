@@ -2,12 +2,13 @@ typedef struct{
 	GtkWidget *window, *game_window;
 	GtkWidget *menu, *table;
 	GtkWidget *spiece_choose, *spiece_name;
-	GtkWidget *size, *map_size, *start_button, *stop_button;
+	GtkWidget *size, *start_button, *stop_button;
 	GtkWidget *labels;
 
 int 	n_xy, /*Declares size of map in x and y direction*/
 	*buf,
-	*map;
+	*map,
+	map_size;
 int	day;
 } Maps;
 
