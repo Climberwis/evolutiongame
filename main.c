@@ -20,16 +20,14 @@ int main(int argc, char *argv[]){
 
 	/*Creating Menu*/
 		map->menu = gtk_vbox_new(TRUE, 1);
-		gtk_widget_set_size_request(map->menu, 150, 50);			
-		map->spiece_name = gtk_label_new("Choose the spieces:");
-		gtk_container_add(GTK_CONTAINER(map->menu), map->spiece_name);
+		gtk_widget_set_size_request(map->menu, 150, 50); 
+		map->labels = gtk_label_new("Choose the spieces:"); gtk_container_add(GTK_CONTAINER(map->menu), map->labels);
 		map->spiece_choose = gtk_combo_box_new_text();
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "PLANT");
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "HERBIVORE");
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "CARNIVORE");
 		gtk_container_add(GTK_CONTAINER(map->menu), map->spiece_choose);
-		map->map_size = gtk_label_new("Map size:");
-		gtk_container_add(GTK_CONTAINER(map->menu), map->map_size);
+		map->labels = gtk_label_new("Map size:"); gtk_container_add(GTK_CONTAINER(map->menu), map->labels);
 		map->size = gtk_combo_box_new_text();
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->size), "100x100");
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->size), "200x200");

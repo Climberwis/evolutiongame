@@ -3,6 +3,7 @@ typedef struct{
 	GtkWidget *menu, *menu_polozenie, *table;
 	GtkWidget *spiece_choose, *spiece_name;
 	GtkWidget *size, *map_size, *start_button, *stop_button;
+	GtkWidget *labels;
 
 int 	n_xy, /*Declares size of map in x and y direction*/
 	*buf,
