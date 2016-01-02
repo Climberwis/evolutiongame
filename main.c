@@ -23,7 +23,6 @@ int main(int argc, char *argv[]){
 
 		/*SPIECES CHOOSE PART*/
 		map->labels = gtk_label_new("SPIECES"); 
-		gtk_container_add(GTK_CONTAINER(map->menu), map->labels);
 		gtk_fixed_put(GTK_FIXED(map->menu), map->labels, 610, 50);
 		map->spiece_choose = gtk_combo_box_new_text(); 
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "PLANT");
@@ -34,7 +33,6 @@ int main(int argc, char *argv[]){
 
 		/*MAP SIZE CHOOSE PART*/
 		map->labels = gtk_label_new("MAP SIZE"); 
-		gtk_container_add(GTK_CONTAINER(map->menu), map->labels);
 		gtk_fixed_put(GTK_FIXED(map->menu), map->labels, 610, 150);
 		map->size = gtk_combo_box_new_text(); 
 		gtk_widget_set_size_request(map->size, 100, 50);
