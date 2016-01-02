@@ -12,9 +12,6 @@ int 	n_xy, /*Declares size of map in x and y direction*/
 int	day;
 } Maps;
 
-
-
-
 void MAIN(GtkWidget *a, gpointer b);
 
 void play_game(Maps *);
@@ -23,6 +20,3 @@ void cp_mapbuf(Maps *);
 void printmap(GtkWidget *game_window, Maps *);
 
 void create_map(Maps *);
-
-
-

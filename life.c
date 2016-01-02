@@ -24,5 +24,3 @@ int i=0;
 	for(i=0;i<=maps->map_size;i++)
 	maps->map[i]=maps->buf[i];
 }
-
-void printmap(GtkWidget *game_window, Maps *maps){}
