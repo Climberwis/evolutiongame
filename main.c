@@ -1,8 +1,12 @@
-#include<stdio.h>
+#include<stdlib.h>
 #include<gtk/gtk.h>
 #include"life.h"
 
 void resize(GtkWidget *a, gpointer b){
+}
+
+void free_mem(Maps *maps){
+	/**/
 }
 
 int main(int argc, char *argv[]){
@@ -20,7 +24,6 @@ int main(int argc, char *argv[]){
 
 	/*Generating map*/
 	create_map(map);
-
 
 		/*SPIECES CHOOSE PART*/
 		map->labels = gtk_label_new("SPIECES"); 
@@ -51,9 +54,8 @@ int main(int argc, char *argv[]){
 		map->stop_button = gtk_button_new_with_label("STOP"); 
 		gtk_widget_set_size_request(map->stop_button, 150, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->stop_button, 600, 370);
-			
 
-	
+	g_signal_connect(G_OBJECT(map->window), "destroy", G_CALLBACK(free_mem), NULL);		
 	g_signal_connect(G_OBJECT(map->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 	gtk_widget_show_all (map->window);
 	gtk_main ();

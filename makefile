@@ -4,6 +4,9 @@ GTKFLAGS= `pkg-config gtk+-2.0 --cflags` `pkg-config gtk+-2.0 --libs`
 
 all: lGoEv
 
+debug: main.c life.c life.h
+	$(CC) -g main.c life.c -o lGoEvdeb $(GTKFLAGS)
+
 lGoEv: main.o life.o
 	$(CC) main.o life.o -o lGoEv $(GTKFLAGS)
 

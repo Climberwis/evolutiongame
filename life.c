@@ -3,12 +3,15 @@
 #include"life.h"
 
 void create_map(Maps *maps){
-int size = maps->n_xy*maps->n_xy, i;
-maps->map = (char*)malloc(size*sizeof(maps->map));
-	for(i=0;i<=size;i++){
+int i;
+maps->map_size = maps->n_xy*maps->n_xy;
+maps->map = (char*)malloc(maps->map_size*sizeof(maps->map));
+	for(i=0;i<=maps->map_size;i++){
 	maps->map[i] = 'l';
 	}
 printmap(maps);
+free(maps->map);
+maps->map=NULL;
 }
 
 void play_game(Maps *maps){
@@ -32,16 +35,26 @@ int i=0;
 
 void printmap(Maps *maps){
 int i=0, x, y;
-	for(x=0; x<maps->n_xy; x++){
-		for(y=0; y<maps->n_xy; y++){
+	for(y=0; y<=maps->n_xy-1; y++){
+		for(x=0; x<=maps->n_xy-1; x++){
 			if(maps->map[i] == 'l'){
-			maps->game_creat = gtk_image_new_from_file("img/land.png");
-			gtk_widget_set_size_request(maps->game_creat, 2, 2);
-			gtk_fixed_put(GTK_FIXED(maps->game_window), maps->game_creat, 20+2*x, 100+2*y);
+			maps->game_field = gtk_image_new_from_file("img/land.png");
+			}
+			else if(maps->map[i] == 'c'){
+			maps->game_field = gtk_image_new_from_file("img/carnivore.png");
+			}
+			else if(maps->map[i] == 'h'){
+			maps->game_field = gtk_image_new_from_file("img/herbivore.png");
+			}
+			else if(maps->map[i] == 'p'){
+			maps->game_field = gtk_image_new_from_file("img/plant.png");
+			}
+			else{
+			break;
+			}
+			gtk_widget_set_size_request(maps->game_field, 2, 2);
+			gtk_fixed_put(GTK_FIXED(maps->game_window), maps->game_field, 50+2*x, 120+2*y);
 			i++;
 			}
-			}
 		}
-		
-
 }
