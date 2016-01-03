@@ -2,10 +2,6 @@
 #include<gtk/gtk.h>
 #include"life.h"
 
-void free_mem(Maps *maps){
-	/**/
-}
-
 int main(int argc, char *argv[]){
 	Maps *map;
 	map = g_malloc ( sizeof( Maps ) );
@@ -14,7 +10,7 @@ int main(int argc, char *argv[]){
 	gtk_init (&argc, &argv);
 
 	map->window = g_object_new( GTK_TYPE_WINDOW, "window-position", GTK_WIN_POS_CENTER,
-	"default-width", 800, "default-height", 640, "title", "Small Game of Evolution", "border-width", 5, NULL );
+	"default-width", 800, "default-height", 640, "title", "Little Game of Evolution", "border-width", 5, NULL );
 	/*Creating Menu*/
 		map->game_window = gtk_fixed_new(); 
 		gtk_container_add(GTK_CONTAINER(map->window), map->game_window);
@@ -41,8 +37,7 @@ int main(int argc, char *argv[]){
 		map->stop_button = gtk_button_new_with_label("STOP"); 
 		gtk_widget_set_size_request(map->stop_button, 150, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->stop_button, 600, 370);
-
-	g_signal_connect(G_OBJECT(map->window), "destroy", G_CALLBACK(free_mem), NULL);		
+	
 	g_signal_connect(G_OBJECT(map->window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 	gtk_widget_show_all (map->window);
 	gtk_main ();
