@@ -52,8 +52,8 @@ int i=0, x, y;
 			else{
 			break;
 			}
-			gtk_widget_set_size_request(maps->game_field, 2, 2);
-			gtk_fixed_put(GTK_FIXED(maps->game_window), maps->game_field, 50+2*x, 120+2*y);
+			gtk_widget_set_size_request(maps->game_field, 4, 4);
+			gtk_fixed_put(GTK_FIXED(maps->game_window), maps->game_field, 50+4*x, 120+4*y);
 			i++;
 			}
 		}

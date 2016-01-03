@@ -2,9 +2,6 @@
 #include<gtk/gtk.h>
 #include"life.h"
 
-void resize(GtkWidget *a, gpointer b){
-}
-
 void free_mem(Maps *maps){
 	/**/
 }
@@ -27,23 +24,13 @@ int main(int argc, char *argv[]){
 
 		/*SPIECES CHOOSE PART*/
 		map->labels = gtk_label_new("SPIECES"); 
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 610, 50);
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 610, 100);
 		map->spiece_choose = gtk_combo_box_new_text(); 
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "PLANT");
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "HERBIVORE");
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "CARNIVORE");
 		gtk_widget_set_size_request(map->spiece_choose, 100, 50);
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->spiece_choose, 600, 70);
-
-		/*MAP SIZE CHOOSE PART*/
-		map->labels = gtk_label_new("MAP SIZE"); 
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 610, 150);
-		map->size = gtk_combo_box_new_text(); 
-		gtk_widget_set_size_request(map->size, 100, 50);
-		gtk_combo_box_append_text(GTK_COMBO_BOX(map->size), "100x100");
-		gtk_combo_box_append_text(GTK_COMBO_BOX(map->size), "200x200");
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->size, 600, 170);
-			g_signal_connect(G_OBJECT(map->size), "changed", G_CALLBACK(resize), (gpointer)map);
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->spiece_choose, 600, 120);
 		
 		/*START/PAUSE BUTTON PART*/
 		map->start_button = gtk_toggle_button_new_with_label("START"); 

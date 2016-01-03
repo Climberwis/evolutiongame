@@ -3,7 +3,7 @@ typedef struct{
 	GtkWidget *game_field;
 	GtkWidget *spiece_choose;
 	GtkWidget *start_button, *stop_button;
-	GtkWidget *labels, *size;
+	GtkWidget *labels;
 
 int 	n_xy, /*Declares size of map in x and y direction*/
 	buf2,	
