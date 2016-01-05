@@ -2,16 +2,16 @@
 #include<gtk/gtk.h>
 #include"life.h"
 
-void create_map(Maps *maps){
+void create_map( Maps *maps ){
 int i;
-maps->map_size = maps->n_xy*maps->n_xy;
-maps->map = (char*)malloc(maps->map_size*sizeof(maps->map));
-	for(i=0;i<=maps->map_size;i++){
+	maps->map_size = maps->n_xy*maps->n_xy;
+	maps->map = (char*)malloc(maps->map_size*sizeof(maps->map));
+	maps->mapa_field = calloc(maps->map_size, sizeof(maps->mapa_field));
+	
+	for(i=0; i<=maps->map_size-1; i++){
 	maps->map[i] = 'l';
 	}
 printmap(maps);
-free(maps->map);
-maps->map=NULL;
 }
 
 void play_game(Maps *maps){
@@ -33,28 +33,35 @@ int i=0;
 	maps->map[i]=maps->buf[i];
 }
 
-void printmap(Maps *maps){
+void wyswietl(Maps *maps){
 int i=0, x, y;
 	for(y=0; y<=maps->n_xy-1; y++){
 		for(x=0; x<=maps->n_xy-1; x++){
-			if(maps->map[i] == 'l'){
-			maps->game_field = gtk_image_new_from_file("img/land.png");
-			}
-			else if(maps->map[i] == 'c'){
-			maps->game_field = gtk_image_new_from_file("img/carnivore.png");
-			}
-			else if(maps->map[i] == 'h'){
-			maps->game_field = gtk_image_new_from_file("img/herbivore.png");
-			}
-			else if(maps->map[i] == 'p'){
-			maps->game_field = gtk_image_new_from_file("img/plant.png");
-			}
-			else{
-			break;
-			}
-			gtk_widget_set_size_request(maps->game_field, 4, 4);
-			gtk_fixed_put(GTK_FIXED(maps->game_window), maps->game_field, 50+4*x, 120+4*y);
-			i++;
-			}
+		gtk_widget_set_size_request(maps->mapa_field[i], 4, 4);
+		gtk_fixed_put(GTK_FIXED(maps->game_window), maps->mapa_field[i], 50+4*x, 120+4*y);
+		i++;
 		}
+	}
+}
+
+void printmap(Maps *maps){
+int i;
+	for(i=0; i<=maps->map_size-1; i++){
+		if(maps->map[i] == 'l'){
+		maps->mapa_field[i] = gtk_image_new_from_file("img/land.png");
+		}
+		else if(maps->map[i] == 'c'){
+		maps->mapa_field[i] = gtk_image_new_from_file("img/carnivore.png");
+		}
+		else if(maps->map[i] == 'h'){
+		maps->mapa_field[i] = gtk_image_new_from_file("img/herbivore.png");
+		}
+		else if(maps->map[i] == 'p'){
+		maps->mapa_field[i] = gtk_image_new_from_file("img/plant.png");
+		}
+		else{
+		break;
+		}
+	}
+	wyswietl(maps);
 }
