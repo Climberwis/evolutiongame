@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -c -Wall -ansi -O3
+CFLAGS= -c -Wall -ansi -O
 GTKFLAGS= `pkg-config gtk+-2.0 --cflags` `pkg-config gtk+-2.0 --libs`
 
 all: lGoEv

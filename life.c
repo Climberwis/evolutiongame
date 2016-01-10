@@ -1,6 +1,8 @@
 #include<stdlib.h>
+#include<unistd.h>
 #include<gtk/gtk.h>
 #include"life.h"
+
 
 void play_game(Maps *maps){
 create_buf(maps);
@@ -15,3 +17,7 @@ for(i=0;i<255;i++){
 void create_buf(Maps *maps){}
 
 void cp_mapbuf(Maps *maps){}
+
+void czerwo(Maps *maps, int pole){
+	gtk_image_set_from_file(maps->field[pole].image, "img/carnivore.png");
+}
