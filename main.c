@@ -12,12 +12,17 @@ static void destroy( GtkWidget *widget, gpointer  pmap ){
 
 void next_day( GtkWidget *widget, gpointer  pmap ){
 	Maps *maps = pmap;
+	char day_text[80];
+	maps->day_timer++;
+	sprintf(day_text,"DAY No. %d",maps->day_timer);
+	gtk_label_set_text(maps->day, day_text);
 	play_game(maps);
 }
 	
 void init_map(Maps *maps){
 	maps->field=calloc(10000,sizeof(MapField));
 	int i, j=0, x, y;
+	maps->day_timer = 0;
 	for (i=0; i<=9999;i++){
 		maps->field[i].image = gtk_image_new_from_file("img/land.png");
 		maps->field[i].value = 0;
@@ -38,6 +43,8 @@ void init_map(Maps *maps){
 void new_map( GtkWidget *widget, gpointer  pmap ){
 	Maps *maps = pmap;
 	int i;
+	gtk_label_set_text(maps->day, "DAY No. 0");
+	maps->day_timer=0;
 	for (i=0; i<=9999;i++){
 	gtk_image_set_from_pixbuf(maps->field[i].image, maps->land);
 	maps->field[i].value = 0;
@@ -78,12 +85,15 @@ int main(int argc, char *argv[]){
 		map->new_game = gtk_button_new_with_label("NEW"); 
 		gtk_widget_set_size_request(map->new_game, 150, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->new_game, 600, 230);
+		
 		g_signal_connect (G_OBJECT (map->new_game), "clicked", G_CALLBACK (new_map), map);		
 
 		/*START/PAUSE BUTTON PART*/
 		map->start_button = gtk_button_new_with_label("NEXT_DAY"); 
 		gtk_widget_set_size_request(map->start_button, 150, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->start_button, 600, 300);
+		map->day = gtk_label_new("DAY No. 0");
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->day, 600, 360);
 		g_signal_connect (G_OBJECT (map->start_button), "clicked", G_CALLBACK (next_day), map);	
 		
 	gtk_widget_show_all (map->window);
