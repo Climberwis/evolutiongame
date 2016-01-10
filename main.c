@@ -48,7 +48,8 @@ void new_map( GtkWidget *widget, gpointer  pmap ){
 	for (i=0; i<=9999;i++){
 	gtk_image_set_from_pixbuf(maps->field[i].image, maps->land);
 	maps->field[i].value = 0;
-}}
+	}
+}
 
 int main(int argc, char *argv[]){
 	Maps *map;
