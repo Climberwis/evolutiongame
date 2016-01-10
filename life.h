@@ -1,7 +1,7 @@
 
 typedef struct{
 	GtkImage *image;
-	int *value;
+	int value;
 } MapField;
 
 
@@ -16,12 +16,4 @@ int 	n_xy, /*Declares size of map in x and y direction*/
 char	*buf;
 } Maps;
 
-
-
-void MAIN(GtkWidget *a, gpointer b);
-
 void play_game(Maps *);
-void create_buf(Maps *);
-void cp_mapbuf(Maps *);
-
-void czerwo(Maps *, int);

@@ -10,14 +10,9 @@ static void destroy( GtkWidget *widget, gpointer  pmap ){
 	gtk_main_quit ();
 }
 
-void new_game1( GtkWidget *widget, gpointer  pmap ){
+void next_day( GtkWidget *widget, gpointer  pmap ){
 	Maps *maps = pmap;
-	int i;
-	for(i=0;i<=9999;i++){
-	if(!(i%3)) gtk_image_set_from_pixbuf(maps->field[i].image, maps->carn);
-	if(!(i%5)) gtk_image_set_from_pixbuf(maps->field[i].image, maps->herb);
-	if(!(i%7)) gtk_image_set_from_pixbuf(maps->field[i].image, maps->plant);
-	}
+	play_game(maps);
 }
 	
 void init_map(Maps *maps){
@@ -40,7 +35,7 @@ void init_map(Maps *maps){
 	maps->plant=gdk_pixbuf_new_from_file("img/plant.png", NULL);
 }
 
-void init( GtkWidget *widget, gpointer  pmap ){
+void new_map( GtkWidget *widget, gpointer  pmap ){
 	Maps *maps = pmap;
 	int i;
 	for (i=0; i<=9999;i++){
@@ -72,6 +67,7 @@ int main(int argc, char *argv[]){
 		map->labels = gtk_label_new("SPIECES"); 
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 610, 100);
 		map->spiece_choose = gtk_combo_box_new_text(); 
+		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "LAND");
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "PLANT");
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "HERBIVORE");
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "CARNIVORE");
@@ -82,18 +78,13 @@ int main(int argc, char *argv[]){
 		map->new_game = gtk_button_new_with_label("NEW"); 
 		gtk_widget_set_size_request(map->new_game, 150, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->new_game, 600, 230);
-		g_signal_connect (G_OBJECT (map->new_game), "clicked", G_CALLBACK (init), map);		
+		g_signal_connect (G_OBJECT (map->new_game), "clicked", G_CALLBACK (new_map), map);		
 
 		/*START/PAUSE BUTTON PART*/
-		map->start_button = gtk_button_new_with_label("START"); 
+		map->start_button = gtk_button_new_with_label("NEXT_DAY"); 
 		gtk_widget_set_size_request(map->start_button, 150, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->start_button, 600, 300);
-
-		/*STOP BUTTON PART*/
-		map->stop_button = gtk_button_new_with_label("STOP(INIT)"); 
-		gtk_widget_set_size_request(map->stop_button, 150, 50);
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->stop_button, 600, 370);
-		g_signal_connect (G_OBJECT (map->stop_button), "clicked", G_CALLBACK (new_game1), map);	
+		g_signal_connect (G_OBJECT (map->start_button), "clicked", G_CALLBACK (next_day), map);	
 		
 	gtk_widget_show_all (map->window);
 	gtk_main ();
