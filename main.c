@@ -45,12 +45,27 @@ void new_map( GtkWidget *widget, gpointer  pmap ){
 	gtk_image_set_from_pixbuf(maps->field[i].image, maps->land);
 	maps->field[i].value = 0;
 	}
-	gtk_image_set_from_pixbuf(maps->field[9940].image, maps->herb);
-	maps->field[9940].value = 3;
-	maps->field[9940].life = 3;
+	gtk_image_set_from_pixbuf(maps->field[220].image, maps->plant);
+	maps->field[220].value = 1;
+	maps->field[220].life = 50;
+	gtk_image_set_from_pixbuf(maps->field[221].image, maps->plant);
+	maps->field[221].value = 1;
+	maps->field[221].life = 50;
+	gtk_image_set_from_pixbuf(maps->field[321].image, maps->plant);
+	maps->field[321].value = 1;
+	maps->field[321].life = 50;
+	gtk_image_set_from_pixbuf(maps->field[421].image, maps->plant);
+	maps->field[421].value = 1;
+	maps->field[421].life = 50;
+	gtk_image_set_from_pixbuf(maps->field[420].image, maps->plant);
+	maps->field[420].value = 1;
+	maps->field[420].life = 50;
 	gtk_image_set_from_pixbuf(maps->field[320].image, maps->carn);
 	maps->field[320].value = 5;
-	maps->field[320].life = 5;
+	maps->field[320].life = 20;
+	gtk_image_set_from_pixbuf(maps->field[319].image, maps->herb);
+	maps->field[319].value = 3;
+	maps->field[319].life = 25;
 }
 
 int main(int argc, char *argv[]){

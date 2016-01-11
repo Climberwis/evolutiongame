@@ -29,14 +29,13 @@ void hypo_move(Maps *maps){
 	if(!(maps->field[i].value == 0 || maps->field[i].value == 1) && maps->field[i].moved == 0){/*losuj nowe pole oznaczone j, sprawdź co tam jest*/
 		j = rand()%8;
 		j = set_state(maps, i, j);
-		maps->field[j].value = maps->field[i].value;
-		maps->field[i].value=0;
 		maps->field[j].moved = 1;
-		if((maps->field[j].life=maps->field[i].life-1)==0) maps->field[j].value=0;
+		if((maps->field[j].life=maps->field[i].life-1)<=0) maps->field[j].value=0;
+	g_print("val: %d mov:%d \tlife: %d \n",maps->field[j].value, j, maps->field[j].life);
 	}}
 }
-int set_state(Maps *maps, int i, int j){	
-	g_print("%d \t", j);	
+int set_state(Maps *maps, int i, int j){
+	/*DECIDE WHERE NEXT STEP*/		
 	if(j<3){
 		if(i<99) j = 9899+i+j;
 		else if(!(i%100) && j == 0) j = i-1;
@@ -62,11 +61,35 @@ int set_state(Maps *maps, int i, int j){
 		else if(!((i+1)%100) && j == 7) j = i + 1;
 		else j = i+94+j;
 	}
-	g_print("%d \n", j);
+	
+	/*DECIDE WHAT HAPPENS ON FIELD*/
 	if(maps->field[j].value == 0){
-	return j;}
+		maps->field[j].value = maps->field[i].value;
+		maps->field[i].value=0;
+		return j;
+	}
 	else if(maps->field[j].value==maps->field[i].value){/*Sprawdź czy można stworzyć nowego creata*/}
-	else if(abs(maps->field[j].value-maps->field[i].value) == 2){/*Zeżryj to o mniejszym value i przesuń tutaj*/}
-	else if(abs(maps->field[j].value-maps->field[i].value) == 4){/*losuj jeszcze raz i wywołaj samego się*/}
+	else if(abs(maps->field[j].value-maps->field[i].value) == 2){
+		if(maps->field[j].value>maps->field[i].value){
+			maps->field[j].life+=maps->field[i].life;
+			maps->field[j].value=maps->field[i].value+2;
+			maps->field[i].value=0;
+			return i;
+		}
+		else{
+			maps->field[i].life+=maps->field[j].life;
+			maps->field[j].value=maps->field[i].value;
+			maps->field[i].value=0;
+			return j;
+		}		
+	}
+	else if(abs(maps->field[j].value-maps->field[i].value) == 4){
+		if(!(maps->field[i].moved == 2)){		
+			maps->field[i].moved = 2;
+			j = rand()%8;
+			j = set_state(maps, i, j);
+		}
+		else return i;
+	}
 return j;
 }
