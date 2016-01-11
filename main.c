@@ -2,17 +2,16 @@
 #include<time.h>
 #include<gtk/gtk.h>
 #include"life.h"
+Maps *map;
 
-static void destroy( GtkWidget *widget, gpointer  pmap ){
-	Maps *maps = pmap;
-	g_free ( maps );
-	maps=NULL;
+static void destroy( GtkWidget *widget){
+	g_free ( map );
+	map=NULL;
 	gtk_main_quit ();
 }
 
-void next_day( GtkWidget *widget, gpointer  pmap ){
-	Maps *maps = pmap;
-	play_game(maps);
+void next_day( GtkWidget *widget){
+	play_game(map);
 }
 	
 void init_map(Maps *maps){
@@ -36,40 +35,38 @@ void init_map(Maps *maps){
 	maps->plant=gdk_pixbuf_new_from_file("img/plant.png", NULL);
 }
 
-void new_map( GtkWidget *widget, gpointer  pmap ){
-	Maps *maps = pmap;
+void new_map( GtkWidget *widget){
 	int i;
-	gtk_label_set_text(maps->day, "DAY No. 0");
-	maps->day_timer=0;
+	gtk_label_set_text(map->day, "DAY No. 0");
+	map->day_timer=0;
 	for (i=0; i<=9999;i++){
-	gtk_image_set_from_pixbuf(maps->field[i].image, maps->land);
-	maps->field[i].value = 0;
+	gtk_image_set_from_pixbuf(map->field[i].image, map->land);
+	map->field[i].value = 0;
 	}
-	gtk_image_set_from_pixbuf(maps->field[220].image, maps->plant);
-	maps->field[220].value = 1;
-	maps->field[220].life = 50;
-	gtk_image_set_from_pixbuf(maps->field[221].image, maps->plant);
-	maps->field[221].value = 1;
-	maps->field[221].life = 50;
-	gtk_image_set_from_pixbuf(maps->field[321].image, maps->plant);
-	maps->field[321].value = 1;
-	maps->field[321].life = 50;
-	gtk_image_set_from_pixbuf(maps->field[421].image, maps->plant);
-	maps->field[421].value = 1;
-	maps->field[421].life = 50;
-	gtk_image_set_from_pixbuf(maps->field[420].image, maps->plant);
-	maps->field[420].value = 1;
-	maps->field[420].life = 50;
-	gtk_image_set_from_pixbuf(maps->field[320].image, maps->carn);
-	maps->field[320].value = 5;
-	maps->field[320].life = 20;
-	gtk_image_set_from_pixbuf(maps->field[319].image, maps->herb);
-	maps->field[319].value = 3;
-	maps->field[319].life = 25;
+	gtk_image_set_from_pixbuf(map->field[220].image, map->plant);
+	map->field[220].value = 1;
+	map->field[220].life = 50;
+	gtk_image_set_from_pixbuf(map->field[221].image, map->plant);
+	map->field[221].value = 1;
+	map->field[221].life = 50;
+	gtk_image_set_from_pixbuf(map->field[321].image, map->plant);
+	map->field[321].value = 1;
+	map->field[321].life = 50;
+	gtk_image_set_from_pixbuf(map->field[421].image, map->plant);
+	map->field[421].value = 1;
+	map->field[421].life = 50;
+	gtk_image_set_from_pixbuf(map->field[420].image, map->plant);
+	map->field[420].value = 1;
+	map->field[420].life = 50;
+	gtk_image_set_from_pixbuf(map->field[320].image, map->carn);
+	map->field[320].value = 5;
+	map->field[320].life = 20;
+	gtk_image_set_from_pixbuf(map->field[319].image, map->herb);
+	map->field[319].value = 3;
+	map->field[319].life = 25;
 }
 
 int main(int argc, char *argv[]){
-	Maps *map;
 	map = g_malloc ( sizeof( Maps ) );
 	map->n_xy = 100;
 		
@@ -79,7 +76,7 @@ int main(int argc, char *argv[]){
 	
 	map->window = g_object_new( GTK_TYPE_WINDOW, "window-position", GTK_WIN_POS_CENTER,
 	"default-width", 800, "default-height", 640, "title", "Little Game of Evolution", "border-width", 5, NULL );
-	g_signal_connect (G_OBJECT (map->window), "destroy", G_CALLBACK (destroy), map);
+	g_signal_connect (G_OBJECT (map->window), "destroy", G_CALLBACK (destroy), NULL);
 
 		/*Creating Menu*/
 		map->game_window = gtk_fixed_new(); 
@@ -104,7 +101,7 @@ int main(int argc, char *argv[]){
 		gtk_widget_set_size_request(map->new_game, 150, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->new_game, 600, 230);
 		
-		g_signal_connect (G_OBJECT (map->new_game), "clicked", G_CALLBACK (new_map), map);		
+		g_signal_connect (G_OBJECT (map->new_game), "clicked", G_CALLBACK (new_map), NULL);		
 
 		/*START/PAUSE BUTTON PART*/
 		map->start_button = gtk_button_new_with_label("NEXT_DAY"); 
@@ -112,7 +109,7 @@ int main(int argc, char *argv[]){
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->start_button, 600, 300);
 		map->day = gtk_label_new("DAY No. 0");
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->day, 600, 360);
-		g_signal_connect (G_OBJECT (map->start_button), "clicked", G_CALLBACK (next_day), map);	
+		g_signal_connect (G_OBJECT (map->start_button), "clicked", G_CALLBACK (next_day), NULL);	
 		
 	gtk_widget_show_all (map->window);
 	gtk_main ();
