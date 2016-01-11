@@ -12,10 +12,6 @@ static void destroy( GtkWidget *widget, gpointer  pmap ){
 
 void next_day( GtkWidget *widget, gpointer  pmap ){
 	Maps *maps = pmap;
-	char day_text[80];
-	maps->day_timer++;
-	sprintf(day_text,"DAY No. %d",maps->day_timer);
-	gtk_label_set_text(maps->day, day_text);
 	play_game(maps);
 }
 	

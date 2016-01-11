@@ -2,19 +2,18 @@
 #include<gtk/gtk.h>
 #include"life.h"
 
-void create_buf(Maps *);
 void hypo_move(Maps *);
 void set_state(Maps *);
 void copy_on_screen(Maps *);
 
 void play_game(Maps *maps){
-create_buf(maps);
-copy_on_screen(maps);
-}
-
-void create_buf(Maps *maps){
+char day_text[80];
+maps->day_timer++;
+sprintf(day_text,"DAY No. %d",maps->day_timer);
+gtk_label_set_text(maps->day, day_text);
 hypo_move(maps);
 set_state(maps);
+copy_on_screen(maps);
 }
 
 void hypo_move(Maps *maps){
