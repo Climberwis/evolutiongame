@@ -45,6 +45,12 @@ void new_map( GtkWidget *widget, gpointer  pmap ){
 	gtk_image_set_from_pixbuf(maps->field[i].image, maps->land);
 	maps->field[i].value = 0;
 	}
+	gtk_image_set_from_pixbuf(maps->field[9940].image, maps->herb);
+	maps->field[9940].value = 3;
+	maps->field[9940].life = 3;
+	gtk_image_set_from_pixbuf(maps->field[320].image, maps->carn);
+	maps->field[320].value = 5;
+	maps->field[320].life = 5;
 }
 
 int main(int argc, char *argv[]){
