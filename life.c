@@ -4,7 +4,6 @@
 
 void hypo_move(Maps *);
 void set_state(Maps *);
-void copy_on_screen(Maps *);
 
 void play_game(Maps *maps){
 char day_text[80];
@@ -13,7 +12,13 @@ sprintf(day_text,"DAY No. %d",maps->day_timer);
 gtk_label_set_text(maps->day, day_text);
 hypo_move(maps);
 set_state(maps);
-copy_on_screen(maps);
+int i;
+	for(i=0;i<=9999;i++){
+	if(maps->field[i].value == 0) gtk_image_set_from_pixbuf(maps->field[i].image, maps->land);
+	if(maps->field[i].value == 1) gtk_image_set_from_pixbuf(maps->field[i].image, maps->plant);
+	if(maps->field[i].value == 3) gtk_image_set_from_pixbuf(maps->field[i].image, maps->herb);
+	if(maps->field[i].value == 5) gtk_image_set_from_pixbuf(maps->field[i].image, maps->carn);
+	}
 }
 
 void hypo_move(Maps *maps){
@@ -41,15 +46,5 @@ int i;
 		case 10: maps->field[i].value = 5;
 			break;
 		}
-	}
-}
-
-void copy_on_screen(Maps *maps){
-int i;
-	for(i=0;i<=9999;i++){
-	if(maps->field[i].value == 0) gtk_image_set_from_pixbuf(maps->field[i].image, maps->land);
-	if(maps->field[i].value == 1) gtk_image_set_from_pixbuf(maps->field[i].image, maps->plant);
-	if(maps->field[i].value == 3) gtk_image_set_from_pixbuf(maps->field[i].image, maps->herb);
-	if(maps->field[i].value == 5) gtk_image_set_from_pixbuf(maps->field[i].image, maps->carn);
 	}
 }
