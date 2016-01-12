@@ -3,7 +3,9 @@
 #include"life.h"
 
 void hypo_move(Maps *);
+int next_step(int, int);
 int set_state(Maps *, int, int);
+void plant_add(Maps *, int);
 
 void play_game(Maps *maps){
 char day_text[80];
@@ -21,23 +23,35 @@ int i;
 }
 
 void hypo_move(Maps *maps){
-	int i, j;
+	int i, j, plant=0, carn=0, herb=0;
 	for(i=0;i<=9999;i++){
 		maps->field[i].moved = 0;
+		if(maps->field[i].value == 1){
+			plant++;
+			maps->field[i].life-=2;
+			if(maps->field[i].life<=0) maps->field[i].value=0;
+		}
 	}
 	for(i=0;i<=9999;i++){
-	if(!(maps->field[i].value == 0 || maps->field[i].value == 1) && maps->field[i].moved == 0){/*losuj nowe pole oznaczone j, sprawdź co tam jest*/
+	if(!(maps->field[i].value == 0 || maps->field[i].value == 1) && maps->field[i].moved == 0){
 		j = rand()%8;
+		j=next_step(i, j);
 		j = set_state(maps, i, j);
 		maps->field[j].moved = 1;
-		if((maps->field[j].life=maps->field[i].life-1)<=0) maps->field[j].value=0;
-	g_print("val: %d mov:%d \tlife: %d \n",maps->field[j].value, j, maps->field[j].life);
+			if(maps->field[j].value==3)maps->field[j].life=maps->field[i].life-1;
+			else if(maps->field[j].value==5)maps->field[j].life=maps->field[i].life-4;
+		if(maps->field[j].life<=0) maps->field[j].value=0;
+		if(maps->field[j].value == 3) herb++;
+		else if(maps->field[j].value == 5) carn++;
 	}}
+plant_add(maps, plant);
+g_print("day: %d plant: %d herb: %d carn %d\n", maps->day_timer, plant, herb, carn);
 }
-int set_state(Maps *maps, int i, int j){
-	/*DECIDE WHERE NEXT STEP*/		
+
+int next_step(int i, int j){	
+/*DECIDE WHERE NEXT STEP*/		
 	if(j<3){
-		if(i<99) j = 9899+i+j;
+		if(i<=99) j = 9899+i+j;
 		else if(!(i%100) && j == 0) j = i-1;
 		else if(!((i+1)%100) && j == 2) j = i-199;
 		else j = i-101+j;
@@ -61,14 +75,28 @@ int set_state(Maps *maps, int i, int j){
 		else if(!((i+1)%100) && j == 7) j = i + 1;
 		else j = i+94+j;
 	}
-	
+return j;
+}
+
+int set_state(Maps *maps, int i, int j){	
 	/*DECIDE WHAT HAPPENS ON FIELD*/
 	if(maps->field[j].value == 0){
 		maps->field[j].value = maps->field[i].value;
 		maps->field[i].value=0;
 		return j;
 	}
-	else if(maps->field[j].value==maps->field[i].value){/*Sprawdź czy można stworzyć nowego creata*/}
+	else if(maps->field[j].value==maps->field[i].value){
+		if(maps->field[j].life>100 && maps->field[i].life>100){
+			int l = rand()%8;
+			if(maps->field[next_step(j, l)].value==0){
+				maps->field[l].value=maps->field[j].value;
+				maps->field[l].life=(maps->field[i].life/3)+(maps->field[j].life/3);
+				return i;
+			}
+			else return i;
+		}
+		else return i;	
+	}
 	else if(abs(maps->field[j].value-maps->field[i].value) == 2){
 		if(maps->field[j].value>maps->field[i].value){
 			maps->field[j].life+=maps->field[i].life;
@@ -87,9 +115,30 @@ int set_state(Maps *maps, int i, int j){
 		if(!(maps->field[i].moved == 2)){		
 			maps->field[i].moved = 2;
 			j = rand()%8;
-			j = set_state(maps, i, j);
+			j = set_state(maps, i, next_step(i,j));
 		}
 		else return i;
 	}
 return j;
+}
+
+void plant_add(Maps *maps, int quant){
+if(!(maps->day_timer%7)){
+	int j;
+	int plant = quant/2;
+	if (quant > 4000) return;
+	else{
+		while(plant>0){
+			j = rand()%10000;
+			if(maps->field[j].value==0){
+				maps->field[j].value=1;
+				plant--;
+			}
+			else continue;
+		}
+	}
+}
+else return;
+	
+
 }

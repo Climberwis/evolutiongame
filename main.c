@@ -39,31 +39,26 @@ void new_map( Maps *map){
 	int i;
 	gtk_label_set_text(map->day, "DAY No. 0");
 	map->day_timer=0;
-	for (i=0; i<=9999;i++){
+	for (i=0; i<=9999; i++){
 	gtk_image_set_from_pixbuf(map->field[i].image, map->land);
 	map->field[i].value = 0;
 	}
-	gtk_image_set_from_pixbuf(map->field[220].image, map->plant);
-	map->field[220].value = 1;
-	map->field[220].life = 50;
-	gtk_image_set_from_pixbuf(map->field[221].image, map->plant);
-	map->field[221].value = 1;
-	map->field[221].life = 50;
-	gtk_image_set_from_pixbuf(map->field[321].image, map->plant);
-	map->field[321].value = 1;
-	map->field[321].life = 50;
-	gtk_image_set_from_pixbuf(map->field[421].image, map->plant);
-	map->field[421].value = 1;
-	map->field[421].life = 50;
-	gtk_image_set_from_pixbuf(map->field[420].image, map->plant);
-	map->field[420].value = 1;
-	map->field[420].life = 50;
-	gtk_image_set_from_pixbuf(map->field[320].image, map->carn);
-	map->field[320].value = 5;
-	map->field[320].life = 20;
-	gtk_image_set_from_pixbuf(map->field[319].image, map->herb);
-	map->field[319].value = 3;
-	map->field[319].life = 25;
+	for (i=0; i<=9999; i++){
+	if(!(i%11)){
+	gtk_image_set_from_pixbuf(map->field[i].image, map->herb);
+	map->field[i].value = 3;
+	map->field[i].life = 50;
+	}
+	if(!(i%77)){
+	gtk_image_set_from_pixbuf(map->field[i].image, map->carn);
+	map->field[i].value = 5;
+	map->field[i].life = 80;
+	}
+	if(!(i%5)){
+	gtk_image_set_from_pixbuf(map->field[i].image, map->plant);
+	map->field[i].value = 1;
+	map->field[i].life = 100;
+	}}
 }
 
 void create_new_map( GtkWidget *widget){
