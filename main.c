@@ -10,8 +10,18 @@ static void destroy( GtkWidget *widget){
 	gtk_main_quit ();
 }
 
-void next_day( GtkWidget *widget){
+int play(GtkWidget *widget){
 	play_game(map);
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) return 1;
+	else return 0;
+}
+
+void next_day( GtkWidget *widget){
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))){
+		gtk_button_set_label(GTK_BUTTON(widget), "PAUSE");
+	}
+	else gtk_button_set_label(GTK_BUTTON(widget), "PLAY");
+	g_timeout_add(750, play, widget); 
 }
 	
 void init_map(Maps *maps){
@@ -103,12 +113,12 @@ int main(int argc, char *argv[]){
 		g_signal_connect (G_OBJECT (map->new_game), "clicked", G_CALLBACK (create_new_map), NULL);		
 
 		/*START/PAUSE BUTTON PART*/
-		map->start_button = gtk_button_new_with_label("NEXT_DAY"); 
+		map->start_button = gtk_toggle_button_new_with_label("PLAY"); 
 		gtk_widget_set_size_request(map->start_button, 150, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->start_button, 600, 300);
 		map->day = gtk_label_new("DAY No. 0");
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->day, 600, 360);
-		g_signal_connect (G_OBJECT (map->start_button), "clicked", G_CALLBACK (next_day), NULL);	
+		g_signal_connect (G_OBJECT (map->start_button), "toggled", G_CALLBACK (next_day), NULL);	
 		
 	gtk_widget_show_all (map->window);
 	gtk_main ();

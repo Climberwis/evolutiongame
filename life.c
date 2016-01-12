@@ -1,6 +1,5 @@
 #include<stdlib.h>
 #include<gtk/gtk.h>
-#include<time.h> 
 #include"life.h"
 
 void hypo_move(Maps *);
@@ -9,9 +8,6 @@ int set_state(Maps *, int, int);
 void plant_add(Maps *, int);
 
 void play_game(Maps *maps){
-/*struct timespec time;
-time.tv_sec = 2;
-time.tv_nsec = 0;*/
 char day_text[80];
 maps->day_timer++;
 sprintf(day_text,"DAY No. %d",maps->day_timer);
@@ -24,7 +20,6 @@ int i;
 	if(maps->field[i].value == 3) gtk_image_set_from_pixbuf(maps->field[i].image, maps->herb);
 	if(maps->field[i].value == 5) gtk_image_set_from_pixbuf(maps->field[i].image, maps->carn);
 	}
-/*nanosleep(&time, NULL);*/
 }
 
 void hypo_move(Maps *maps){
