@@ -142,6 +142,4 @@ if(!(maps->day_timer%7)){
 	}
 }
 else return;
-	
-
 }
