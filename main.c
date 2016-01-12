@@ -35,7 +35,7 @@ void init_map(Maps *maps){
 	maps->plant=gdk_pixbuf_new_from_file("img/plant.png", NULL);
 }
 
-void new_map( GtkWidget *widget){
+void new_map( Maps *map){
 	int i;
 	gtk_label_set_text(map->day, "DAY No. 0");
 	map->day_timer=0;
@@ -64,6 +64,10 @@ void new_map( GtkWidget *widget){
 	gtk_image_set_from_pixbuf(map->field[319].image, map->herb);
 	map->field[319].value = 3;
 	map->field[319].life = 25;
+}
+
+void create_new_map( GtkWidget *widget){
+new_map(map);
 }
 
 int main(int argc, char *argv[]){
@@ -101,7 +105,7 @@ int main(int argc, char *argv[]){
 		gtk_widget_set_size_request(map->new_game, 150, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->new_game, 600, 230);
 		
-		g_signal_connect (G_OBJECT (map->new_game), "clicked", G_CALLBACK (new_map), NULL);		
+		g_signal_connect (G_OBJECT (map->new_game), "clicked", G_CALLBACK (create_new_map), NULL);		
 
 		/*START/PAUSE BUTTON PART*/
 		map->start_button = gtk_button_new_with_label("NEXT_DAY"); 
