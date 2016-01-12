@@ -44,15 +44,15 @@ void new_map( Maps *map){
 	map->field[i].value = 0;
 	}
 	for (i=0; i<=9999; i++){
-	if(!(i%11)){
+	if(!(i%3) && i > 2500 && i < 6500){
 	gtk_image_set_from_pixbuf(map->field[i].image, map->herb);
 	map->field[i].value = 3;
 	map->field[i].life = 50;
 	}
-	if(!(i%77)){
+	if(!(i%24) && i < 4000){
 	gtk_image_set_from_pixbuf(map->field[i].image, map->carn);
 	map->field[i].value = 5;
-	map->field[i].life = 80;
+	map->field[i].life = 60;
 	}
 	if(!(i%5)){
 	gtk_image_set_from_pixbuf(map->field[i].image, map->plant);

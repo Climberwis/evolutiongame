@@ -1,5 +1,6 @@
 #include<stdlib.h>
 #include<gtk/gtk.h>
+#include<time.h> 
 #include"life.h"
 
 void hypo_move(Maps *);
@@ -8,6 +9,9 @@ int set_state(Maps *, int, int);
 void plant_add(Maps *, int);
 
 void play_game(Maps *maps){
+/*struct timespec time;
+time.tv_sec = 2;
+time.tv_nsec = 0;*/
 char day_text[80];
 maps->day_timer++;
 sprintf(day_text,"DAY No. %d",maps->day_timer);
@@ -20,6 +24,7 @@ int i;
 	if(maps->field[i].value == 3) gtk_image_set_from_pixbuf(maps->field[i].image, maps->herb);
 	if(maps->field[i].value == 5) gtk_image_set_from_pixbuf(maps->field[i].image, maps->carn);
 	}
+/*nanosleep(&time, NULL);*/
 }
 
 void hypo_move(Maps *maps){
@@ -86,11 +91,14 @@ int set_state(Maps *maps, int i, int j){
 		return j;
 	}
 	else if(maps->field[j].value==maps->field[i].value){
-		if(maps->field[j].life>100 && maps->field[i].life>100){
+		if(maps->field[j].life>=100 && maps->field[i].life>=100){
 			int l = rand()%8;
-			if(maps->field[next_step(j, l)].value==0){
+			l = next_step(j, l);
+			if(maps->field[l].value==0 || maps->field[l].value==1){
 				maps->field[l].value=maps->field[j].value;
 				maps->field[l].life=(maps->field[i].life/3)+(maps->field[j].life/3);
+				maps->field[i].life*=2/3;
+				maps->field[j].life*=2/3;
 				return i;
 			}
 			else return i;
@@ -99,13 +107,12 @@ int set_state(Maps *maps, int i, int j){
 	}
 	else if(abs(maps->field[j].value-maps->field[i].value) == 2){
 		if(maps->field[j].value>maps->field[i].value){
-			maps->field[j].life+=maps->field[i].life;
-			maps->field[j].value=maps->field[i].value+2;
+			maps->field[j].life=maps->field[j].life+maps->field[i].life;
 			maps->field[i].value=0;
 			return i;
 		}
 		else{
-			maps->field[i].life+=maps->field[j].life;
+			maps->field[i].life=maps->field[i].life+maps->field[j].life;
 			maps->field[j].value=maps->field[i].value;
 			maps->field[i].value=0;
 			return j;
@@ -132,9 +139,10 @@ if(!(maps->day_timer%7)){
 			j = rand()%10000;
 			if(maps->field[j].value==0){
 				maps->field[j].value=1;
+				maps->field[j].life=100;
 				plant--;
 			}
-			else continue;
+			else plant--;
 		}
 	}
 }
