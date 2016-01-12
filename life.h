@@ -1,8 +1,8 @@
 typedef struct{
 	GtkImage *image;
 	int 	value,
-		moved,
-		life;
+		moved;
+	double	life;
 } MapField;
 
 

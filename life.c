@@ -92,8 +92,8 @@ int set_state(Maps *maps, int i, int j){
 			if(maps->field[l].value==0 || maps->field[l].value==1){
 				maps->field[l].value=maps->field[j].value;
 				maps->field[l].life=(maps->field[i].life/3)+(maps->field[j].life/3);
-				maps->field[i].life*=2/3;
-				maps->field[j].life*=2/3;
+				maps->field[i].life*=0.66;
+				maps->field[j].life*=0.66;
 				return i;
 			}
 			else return i;

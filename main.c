@@ -57,7 +57,7 @@ void new_map( Maps *map){
 	if(!(i%3) && i > 2500 && i < 6500){
 	gtk_image_set_from_pixbuf(map->field[i].image, map->herb);
 	map->field[i].value = 3;
-	map->field[i].life = 50;
+	map->field[i].life = 70;
 	}
 	if(!(i%24) && i < 4000){
 	gtk_image_set_from_pixbuf(map->field[i].image, map->carn);
