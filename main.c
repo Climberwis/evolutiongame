@@ -3,19 +3,27 @@
 #include<gtk/gtk.h>
 #include"life.h"
 Maps *map;
+void new_land(int);
+void new_plant(int);
+void new_herb(int);
+void new_carn(int);
 
+/*DESTROY MUAHAHA*/
 static void destroy( GtkWidget *widget){
 	g_free ( map );
 	map=NULL;
 	gtk_main_quit ();
 }
 
+/*NEW CREATS POINTING SECTION*/
 gboolean button_pressed (GtkWidget *event_box, GdkEventButton *event){
 	if((event->x >= 50 && event->x <= 450) && (event->y >= 120 && event->y <= 520)){
-	g_print ("Event box clicked at coordinates %f,%f\n", event->x, event->y);}
+	g_print ("Event box clicked at coordinates %f,%f\n", event->x, event->y);
+	}
 	return TRUE;
 }
 
+/*SIMULATION SECTION*/
 int play(GtkWidget *widget){
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))){
 		play_game(map);
@@ -31,7 +39,8 @@ void next_day( GtkWidget *widget){
 	else gtk_button_set_label(GTK_BUTTON(widget), "PLAY");
 	g_timeout_add(750, play, widget); 
 }
-	
+
+/*MAP WORKOUT SECTION*/	
 void init_map(Maps *map){
 	map->field=calloc(10000,sizeof(MapField));
 	int i, j=0, x, y;
@@ -66,25 +75,11 @@ void new_map( Maps *map, int choice){
 	else{
 	for (i=0; i<=9999; i++){
 	z = (rand()%51)/10;
-	if(z==0 || z == 2){
-		gtk_image_set_from_pixbuf(map->field[i].image, map->land);
-		map->field[i].value = 0;
-		map->field[i].life = 0;
-	}
-	else if(z==1 || z == 4){
-		gtk_image_set_from_pixbuf(map->field[i].image, map->plant);
-		map->field[i].value = 1;
-		map->field[i].life = 100;
-	}
-	else if(z==3 && i%8){
-		gtk_image_set_from_pixbuf(map->field[i].image, map->herb);
-		map->field[i].value = 3;
-		map->field[i].life = 60;
-	}
-	else if(z==5 && i%2){
-		gtk_image_set_from_pixbuf(map->field[i].image, map->carn);		map->field[i].value = 5;
-		map->field[i].life = 50;
-	}}}
+	if(z==0 || z == 2) new_land(i);
+	else if(z==1 || z == 4) new_plant(i);
+	else if(z==3 && i%8) new_herb(i);
+	else if(z==5 && i%2) new_carn(i);
+	}}
 }
 
 void create_new_map( GtkWidget *widget){
@@ -95,6 +90,30 @@ new_map(map, i);
 void generate_new_map( GtkWidget *widget){
 int i=1;
 new_map(map, i);
+}
+
+/*NEW CREAT SECTION*/
+void new_land(int i){
+	gtk_image_set_from_pixbuf(map->field[i].image, map->land);
+	map->field[i].value = 0;
+	map->field[i].life = 0;
+}
+void new_plant(int i){
+	gtk_image_set_from_pixbuf(map->field[i].image, map->plant);
+	map->field[i].value = 1;
+	map->field[i].life = 100;
+}
+
+void new_herb(int i){
+	gtk_image_set_from_pixbuf(map->field[i].image, map->herb);
+	map->field[i].value = 3;
+	map->field[i].life = 60;
+}
+
+void new_carn(int i){
+	gtk_image_set_from_pixbuf(map->field[i].image, map->carn);
+	map->field[i].value = 5;
+	map->field[i].life = 50;
 }
 /*MAIN MAIN MAIN MAIN */
 int main(int argc, char *argv[]){
