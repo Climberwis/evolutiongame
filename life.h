@@ -8,7 +8,7 @@ typedef struct{
 
 typedef struct{
 	MapField *field;
-	GtkWidget *window, *game_window;
+	GtkWidget *window, *event_box, *game_window;
 	GdkPixbuf *land, *herb, *carn, *plant;
 	GtkWidget *spiece_choose, *rand_game, *new_game, *start_button, *stop_button, *labels, *creat, *day;
 int 	day_timer,

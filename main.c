@@ -10,9 +10,17 @@ static void destroy( GtkWidget *widget){
 	gtk_main_quit ();
 }
 
+gboolean button_pressed (GtkWidget *event_box, GdkEventButton *event){
+	if((event->x >= 50 && event->x <= 450) && (event->y >= 120 && event->y <= 520)){
+	g_print ("Event box clicked at coordinates %f,%f\n", event->x, event->y);}
+	return TRUE;
+}
+
 int play(GtkWidget *widget){
-	play_game(map);
-	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) return 1;
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))){
+		play_game(map);
+		return 1;
+	}
 	else return 0;
 }
 
@@ -24,25 +32,25 @@ void next_day( GtkWidget *widget){
 	g_timeout_add(750, play, widget); 
 }
 	
-void init_map(Maps *maps){
-	maps->field=calloc(10000,sizeof(MapField));
+void init_map(Maps *map){
+	map->field=calloc(10000,sizeof(MapField));
 	int i, j=0, x, y;
-	maps->day_timer = 0;
+	map->day_timer = 0;
 	for (i=0; i<=9999;i++){
-		maps->field[i].image = gtk_image_new_from_file("img/land.png");
-		maps->field[i].value = 0;
+		map->field[i].image = gtk_image_new_from_file("img/land.png");
+		map->field[i].value = 0;
 	}
-	for(y=0; y<=maps->n_xy-1; y++){
-		for(x=0; x<=maps->n_xy-1; x++){
-		gtk_widget_set_size_request(maps->field[j].image, 4, 4);
-		gtk_fixed_put(GTK_FIXED(maps->game_window), maps->field[j].image, 50+4*x, 120+4*y);
+	for(y=0; y<=map->n_xy-1; y++){
+		for(x=0; x<=map->n_xy-1; x++){
+		gtk_widget_set_size_request(map->field[j].image, 4, 4);
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->field[j].image, 50+4*x, 120+4*y);
 		j++;
 	}
 	}
-	maps->land=gdk_pixbuf_new_from_file("img/land.png", NULL);
-	maps->herb=gdk_pixbuf_new_from_file("img/herbivore.png", NULL);
-	maps->carn=gdk_pixbuf_new_from_file("img/carnivore.png", NULL);
-	maps->plant=gdk_pixbuf_new_from_file("img/plant.png", NULL);
+	map->land=gdk_pixbuf_new_from_file("img/land.png", NULL);
+	map->herb=gdk_pixbuf_new_from_file("img/herbivore.png", NULL);
+	map->carn=gdk_pixbuf_new_from_file("img/carnivore.png", NULL);
+	map->plant=gdk_pixbuf_new_from_file("img/plant.png", NULL);
 }
 
 void new_map( Maps *map, int choice){
@@ -88,7 +96,7 @@ void generate_new_map( GtkWidget *widget){
 int i=1;
 new_map(map, i);
 }
-
+/*MAIN MAIN MAIN MAIN */
 int main(int argc, char *argv[]){
 	map = g_malloc ( sizeof( Maps ) );
 	map->n_xy = 100;
@@ -102,11 +110,14 @@ int main(int argc, char *argv[]){
 	g_signal_connect (G_OBJECT (map->window), "destroy", G_CALLBACK (destroy), NULL);
 
 		/*Creating Menu*/
-		map->game_window = gtk_fixed_new(); 
-		gtk_container_add(GTK_CONTAINER(map->window), map->game_window);
+		map->game_window = gtk_fixed_new();
+		map->event_box = gtk_event_box_new ();
+		gtk_container_add(GTK_CONTAINER(map->event_box), map->game_window);
+		gtk_container_add(GTK_CONTAINER(map->window), map->event_box);
+		g_signal_connect (G_OBJECT (map->event_box), "button_press_event", G_CALLBACK (button_pressed), NULL);
 		
 		/*Generating Map*/
-		init_map(map);
+		init_map(map);	
 
 		/*SPIECES CHOOSE PART*/
 		map->labels = gtk_label_new("SPIECES"); 
@@ -119,7 +130,7 @@ int main(int argc, char *argv[]){
 		gtk_widget_set_size_request(map->spiece_choose, 100, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->spiece_choose, 600, 120);
 
-		/*NEW GAME BUTTON PART*/
+		/*RANDOM GAME BUTTON PART*/
 		map->rand_game = gtk_button_new_with_label("RANDOM"); 
 		gtk_widget_set_size_request(map->rand_game, 150, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->rand_game, 600, 230);
