@@ -127,7 +127,7 @@ return j;
 void plant_add(Maps *maps, int quant){
 if(!(maps->day_timer%7)){
 	int j;
-	int plant = 150+quant/2;
+	int plant = 100+quant/2;
 	if (quant > 4000) return;
 	else{
 		while(plant>0){

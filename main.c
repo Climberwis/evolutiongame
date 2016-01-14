@@ -16,13 +16,27 @@ static void destroy( GtkWidget *widget){
 }
 
 /*NEW CREATS POINTING SECTION*/
+void spiece_chosen(GtkWidget *spiece){
+map->spiece = gtk_combo_box_get_active(GTK_COMBO_BOX(map->spiece_choose));
+}
+
 gboolean button_pressed (GtkWidget *event_box, GdkEventButton *event){
-	if((event->x >= 50 && event->x <= 450) && (event->y >= 120 && event->y <= 520)){
-	g_print ("Event box clicked at coordinates %f,%f\n", event->x, event->y);
+	int i, j;
+	if((event->x >= 50 && event->x <= 450) && (event->y >= 120 && event->y <= 520) && map->spiece>=0){
+	i=(((event->y-1)/4-30));
+	j=(((event->x)/4-12.5));
+	i=100*i+j;
+	print_creat(i);
 	}
 	return TRUE;
 }
 
+void print_creat(int i){
+	if(map->spiece==0) new_land(i);
+	if(map->spiece==1) new_plant(i);
+	if(map->spiece==2) new_herb(i);
+	if(map->spiece==3) new_carn(i);
+}
 /*SIMULATION SECTION*/
 int play(GtkWidget *widget){
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))){
@@ -45,6 +59,7 @@ void init_map(Maps *map){
 	map->field=calloc(10000,sizeof(MapField));
 	int i, j=0, x, y;
 	map->day_timer = 0;
+	map->spiece=-1;
 	for (i=0; i<=9999;i++){
 		map->field[i].image = gtk_image_new_from_file("img/land.png");
 		map->field[i].value = 0;
@@ -148,6 +163,7 @@ int main(int argc, char *argv[]){
 		gtk_combo_box_append_text(GTK_COMBO_BOX(map->spiece_choose), "CARNIVORE");
 		gtk_widget_set_size_request(map->spiece_choose, 100, 50);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->spiece_choose, 600, 120);
+		g_signal_connect(G_OBJECT(map->spiece_choose), "changed", G_CALLBACK(spiece_chosen), NULL);
 
 		/*RANDOM GAME BUTTON PART*/
 		map->rand_game = gtk_button_new_with_label("RANDOM"); 
