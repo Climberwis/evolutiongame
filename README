@@ -19,6 +19,8 @@ To clean directory with source, type:
   $ make clall
   
 3. Simulation 
+  To run simulation enter the directory where it is compiled and type:
+  ./lGoEv
   The object of Little Game of Evolution is to pass Term project :)
   Choose the SPIECES combobox to choose field type to mark on the map (big white one).
   Choose RANDOM button to draw a map (it may be stupid).
