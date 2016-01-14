@@ -45,34 +45,48 @@ void init_map(Maps *maps){
 	maps->plant=gdk_pixbuf_new_from_file("img/plant.png", NULL);
 }
 
-void new_map( Maps *map){
-	int i;
+void new_map( Maps *map, int choice){
+	int i, z;
 	gtk_label_set_text(map->day, "DAY No. 0");
 	map->day_timer=0;
+	if (!choice){
 	for (i=0; i<=9999; i++){
 	gtk_image_set_from_pixbuf(map->field[i].image, map->land);
 	map->field[i].value = 0;
-	}
-	for (i=0; i<=9999; i++){
-	if(!(i%3) && i > 2500 && i < 6500){
-	gtk_image_set_from_pixbuf(map->field[i].image, map->herb);
-	map->field[i].value = 3;
-	map->field[i].life = 70;
-	}
-	if(!(i%24) && i < 4000){
-	gtk_image_set_from_pixbuf(map->field[i].image, map->carn);
-	map->field[i].value = 5;
-	map->field[i].life = 60;
-	}
-	if(!(i%5)){
-	gtk_image_set_from_pixbuf(map->field[i].image, map->plant);
-	map->field[i].value = 1;
-	map->field[i].life = 100;
+	map->field[i].life = 0;
 	}}
+	else{
+	for (i=0; i<=9999; i++){
+	z = (rand()%51)/10;
+	if(z==0 || z == 2){
+		gtk_image_set_from_pixbuf(map->field[i].image, map->land);
+		map->field[i].value = 0;
+		map->field[i].life = 0;
+	}
+	else if(z==1 || z == 4){
+		gtk_image_set_from_pixbuf(map->field[i].image, map->plant);
+		map->field[i].value = 1;
+		map->field[i].life = 100;
+	}
+	else if(z==3 && i%8){
+		gtk_image_set_from_pixbuf(map->field[i].image, map->herb);
+		map->field[i].value = 3;
+		map->field[i].life = 60;
+	}
+	else if(z==5 && i%2){
+		gtk_image_set_from_pixbuf(map->field[i].image, map->carn);		map->field[i].value = 5;
+		map->field[i].life = 50;
+	}}}
 }
 
 void create_new_map( GtkWidget *widget){
-new_map(map);
+int i=0;
+new_map(map, i);
+}
+
+void generate_new_map( GtkWidget *widget){
+int i=1;
+new_map(map, i);
 }
 
 int main(int argc, char *argv[]){
@@ -106,18 +120,24 @@ int main(int argc, char *argv[]){
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->spiece_choose, 600, 120);
 
 		/*NEW GAME BUTTON PART*/
-		map->new_game = gtk_button_new_with_label("NEW"); 
+		map->rand_game = gtk_button_new_with_label("RANDOM"); 
+		gtk_widget_set_size_request(map->rand_game, 150, 50);
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->rand_game, 600, 230);
+		g_signal_connect (G_OBJECT (map->rand_game), "clicked", G_CALLBACK (generate_new_map), NULL);		
+
+
+		/*NEW GAME BUTTON PART*/
+		map->new_game = gtk_button_new_with_label("CLEAR"); 
 		gtk_widget_set_size_request(map->new_game, 150, 50);
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->new_game, 600, 230);
-		
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->new_game, 600, 300);
 		g_signal_connect (G_OBJECT (map->new_game), "clicked", G_CALLBACK (create_new_map), NULL);		
 
 		/*START/PAUSE BUTTON PART*/
 		map->start_button = gtk_toggle_button_new_with_label("PLAY"); 
 		gtk_widget_set_size_request(map->start_button, 150, 50);
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->start_button, 600, 300);
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->start_button, 600, 370);
 		map->day = gtk_label_new("DAY No. 0");
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->day, 600, 360);
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->day, 600, 430);
 		g_signal_connect (G_OBJECT (map->start_button), "toggled", G_CALLBACK (next_day), NULL);	
 
 		/*LEGEND*/
