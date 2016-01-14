@@ -19,3 +19,6 @@ life.o: life.c life.h
 clean:
 	rm *o lGoEv
 
+clall:
+	rm -rf *.o *.c *.h lGoEv img/
+
