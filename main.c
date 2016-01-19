@@ -61,7 +61,7 @@ void init_map(Maps *map){
 	map->day_timer = 0;
 	map->spiece=-1;
 	for (i=0; i<=9999;i++){
-		map->field[i].image = gtk_image_new_from_file("img/land.png");
+		map->field[i].image = gtk_image_new_from_file("lGimg/land.png");
 		map->field[i].value = 0;
 	}
 	for(y=0; y<=map->n_xy-1; y++){
@@ -71,10 +71,10 @@ void init_map(Maps *map){
 		j++;
 	}
 	}
-	map->land=gdk_pixbuf_new_from_file("img/land.png", NULL);
-	map->herb=gdk_pixbuf_new_from_file("img/herbivore.png", NULL);
-	map->carn=gdk_pixbuf_new_from_file("img/carnivore.png", NULL);
-	map->plant=gdk_pixbuf_new_from_file("img/plant.png", NULL);
+	map->land=gdk_pixbuf_new_from_file("lGimg/land.png", NULL);
+	map->herb=gdk_pixbuf_new_from_file("lGimg/herbivore.png", NULL);
+	map->carn=gdk_pixbuf_new_from_file("lGimg/carnivore.png", NULL);
+	map->plant=gdk_pixbuf_new_from_file("lGimg/plant.png", NULL);
 }
 
 void new_map( Maps *map, int choice){
