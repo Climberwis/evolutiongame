@@ -1,12 +1,15 @@
 #include<stdlib.h>
 #include<time.h>
 #include<gtk/gtk.h>
+#include<string.h>
+#include <libgen.h>
 #include"life.h"
 Maps *map;
 void new_land(int);
 void new_plant(int);
 void new_herb(int);
 void new_carn(int);
+void print_creat(int);
 
 /*DESTROY MUAHAHA*/
 static void destroy( GtkWidget *widget){
@@ -55,13 +58,24 @@ void next_day( GtkWidget *widget){
 }
 
 /*MAP WORKOUT SECTION*/	
-void init_map(Maps *map){
+void init_map(Maps *map, char *PATH){
+	g_print("%s\n", PATH);
+	char path[80], land_dir[80], plant_dir[80]="", herb_dir[80]="", carn_dir[80]="";
+	strcpy(path, dirname(PATH));
+	g_print("%s\n", path);
+	strcpy(land_dir, path); strcpy(plant_dir, path); strcpy(herb_dir, path); strcpy(carn_dir, path);
+	g_print("%s\n", PATH);
+	g_print("%s\n", land_dir);
+	strcat(land_dir, "/lGimg/land.png" ); strcat(plant_dir, "/lGimg/plant.png"); 
+	g_print("%s\n", land_dir);
+	strcat(herb_dir, "/lGimg/herbivore.png"); strcat(carn_dir, "/lGimg/carnivore.png" );
+
 	map->field=calloc(10000,sizeof(MapField));
 	int i, j=0, x, y;
 	map->day_timer = 0;
 	map->spiece=-1;
 	for (i=0; i<=9999;i++){
-		map->field[i].image = gtk_image_new_from_file("lGimg/land.png");
+		map->field[i].image = gtk_image_new_from_file(land_dir);
 		map->field[i].value = 0;
 	}
 	for(y=0; y<=map->n_xy-1; y++){
@@ -71,10 +85,32 @@ void init_map(Maps *map){
 		j++;
 	}
 	}
-	map->land=gdk_pixbuf_new_from_file("lGimg/land.png", NULL);
-	map->herb=gdk_pixbuf_new_from_file("lGimg/herbivore.png", NULL);
-	map->carn=gdk_pixbuf_new_from_file("lGimg/carnivore.png", NULL);
-	map->plant=gdk_pixbuf_new_from_file("lGimg/plant.png", NULL);
+	map->land=gdk_pixbuf_new_from_file(land_dir, NULL);
+	map->herb=gdk_pixbuf_new_from_file(herb_dir, NULL);
+	map->carn=gdk_pixbuf_new_from_file(carn_dir, NULL);
+	map->plant=gdk_pixbuf_new_from_file(plant_dir, NULL);
+	
+	/*LEGEND*/
+		map->creat = gtk_image_new_from_file(land_dir);
+		gtk_widget_set_size_request(map->creat, 4, 4);
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->creat, 50, 540);
+		map->labels = gtk_label_new("LAND"); 
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 60, 535);
+		map->creat = gtk_image_new_from_file(plant_dir);
+		gtk_widget_set_size_request(map->creat, 4, 4);
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->creat, 50, 560);
+		map->labels = gtk_label_new("PLANT"); 
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 60, 555);
+		map->creat = gtk_image_new_from_file(herb_dir);
+		gtk_widget_set_size_request(map->creat, 4, 4);
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->creat, 50, 580);
+		map->labels = gtk_label_new("HERBIVORE"); 
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 60, 575);
+		map->creat = gtk_image_new_from_file(carn_dir);
+		gtk_widget_set_size_request(map->creat, 4, 4);
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->creat, 50, 600);
+		map->labels = gtk_label_new("CARNIVORE"); 
+		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 60, 595);
 }
 
 void new_map( Maps *map, int choice){
@@ -151,7 +187,7 @@ int main(int argc, char *argv[]){
 		g_signal_connect (G_OBJECT (map->event_box), "button_press_event", G_CALLBACK (button_pressed), NULL);
 		
 		/*Generating Map*/
-		init_map(map);	
+		init_map(map, argv[0]);	
 
 		/*SPIECES CHOOSE PART*/
 		map->labels = gtk_label_new("SPIECES"); 
@@ -185,28 +221,6 @@ int main(int argc, char *argv[]){
 		map->day = gtk_label_new("DAY No. 0");
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->day, 600, 430);
 		g_signal_connect (G_OBJECT (map->start_button), "toggled", G_CALLBACK (next_day), NULL);	
-
-		/*LEGEND*/
-		map->creat = gtk_image_new_from_file("img/land.png");
-		gtk_widget_set_size_request(map->creat, 4, 4);
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->creat, 50, 540);
-		map->labels = gtk_label_new("LAND"); 
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 60, 535);
-		map->creat = gtk_image_new_from_file("img/plant.png");
-		gtk_widget_set_size_request(map->creat, 4, 4);
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->creat, 50, 560);
-		map->labels = gtk_label_new("PLANT"); 
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 60, 555);
-		map->creat = gtk_image_new_from_file("img/herbivore.png");
-		gtk_widget_set_size_request(map->creat, 4, 4);
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->creat, 50, 580);
-		map->labels = gtk_label_new("HERBIVORE"); 
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 60, 575);
-		map->creat = gtk_image_new_from_file("img/carnivore.png");
-		gtk_widget_set_size_request(map->creat, 4, 4);
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->creat, 50, 600);
-		map->labels = gtk_label_new("CARNIVORE"); 
-		gtk_fixed_put(GTK_FIXED(map->game_window), map->labels, 60, 595);
 
 	gtk_widget_show_all (map->window);
 	gtk_main ();
