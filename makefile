@@ -25,4 +25,6 @@ clean:
 
 clall:
 	rm -rf *.o *.c *.h lGoEv img/
+	rm -rf /bin/lGoEv /bin/lGoEv/lGimg
+	rm -rf /usr/local/bin/lGoEv /usr/local/bin/lGoEv/lGimg
 
