@@ -1,5 +1,5 @@
 # evolutiongame
-Term project, created in C. Something like game of evolution but more advanced.
+Term project, created in C. Something like game of evolution but more or less advanced.
 Questions, comments: pawel.wis93@gmail.com
 
 README configured for Debian like systems.
@@ -10,13 +10,18 @@ Before installation make sure, that GTK+ 2.0 is installed on your computer. For 
   
 When downloaded unpack/copy into chosen directory. To compile type:
   $ make all
+To install type
+  $ sudo make install
   
 2. Cleaning
 To clean directory of C and object files, type:
   $ make clean
 
+
 To fully clean directory, type:
-  $ sudo make clall
+  $make clean
+To fully unistall, type:
+  $make clall
   
 3. Simulation 
   To run simulation install it and type:
