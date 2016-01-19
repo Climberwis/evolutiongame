@@ -18,6 +18,21 @@ static void destroy( GtkWidget *widget){
 	gtk_main_quit ();
 }
 
+/*HELP*/
+void help(int par, char *args[]){
+int i, h=0;
+	for(i=1;i<par;i++){
+		if(!(strcmp(args[i],"-h"))||!(strcmp(args[i],"--help"))){
+		h=1;} else continue;}
+	if(h){
+		g_print("Little Game of Evolution [HELP]\ntype:\tdir/lGoEv to play\nGTK+2.0 needed (type sudo apt-get install libgtk2.0-dev to install)\n");
+		g_print("More in README\nHAVE FUN!!!\n");
+	} else {
+	g_print("Little Game of Evolution\ntype:\tdir/lGoEv to play\ndir/lGoEv -h/--help to help\n");
+	}
+exit(1);
+}
+
 /*NEW CREATS POINTING SECTION*/
 void spiece_chosen(GtkWidget *spiece){
 map->spiece = gtk_combo_box_get_active(GTK_COMBO_BOX(map->spiece_choose));
@@ -59,17 +74,10 @@ void next_day( GtkWidget *widget){
 
 /*MAP WORKOUT SECTION*/	
 void init_map(Maps *map, char *PATH){
-	g_print("%s\n", PATH);
 	char path[80], land_dir[80], plant_dir[80]="", herb_dir[80]="", carn_dir[80]="";
-	strcpy(path, dirname(PATH));
-	g_print("%s\n", path);
-	strcpy(land_dir, path); strcpy(plant_dir, path); strcpy(herb_dir, path); strcpy(carn_dir, path);
-	g_print("%s\n", PATH);
-	g_print("%s\n", land_dir);
+	strcpy(path, dirname(PATH)); strcpy(land_dir, path); strcpy(plant_dir, path); strcpy(herb_dir, path); strcpy(carn_dir, path);
 	strcat(land_dir, "/lGimg/land.png" ); strcat(plant_dir, "/lGimg/plant.png"); 
-	g_print("%s\n", land_dir);
 	strcat(herb_dir, "/lGimg/herbivore.png"); strcat(carn_dir, "/lGimg/carnivore.png" );
-
 	map->field=calloc(10000,sizeof(MapField));
 	int i, j=0, x, y;
 	map->day_timer = 0;
@@ -83,13 +91,11 @@ void init_map(Maps *map, char *PATH){
 		gtk_widget_set_size_request(map->field[j].image, 4, 4);
 		gtk_fixed_put(GTK_FIXED(map->game_window), map->field[j].image, 50+4*x, 120+4*y);
 		j++;
-	}
-	}
+	}}
 	map->land=gdk_pixbuf_new_from_file(land_dir, NULL);
 	map->herb=gdk_pixbuf_new_from_file(herb_dir, NULL);
 	map->carn=gdk_pixbuf_new_from_file(carn_dir, NULL);
 	map->plant=gdk_pixbuf_new_from_file(plant_dir, NULL);
-	
 	/*LEGEND*/
 		map->creat = gtk_image_new_from_file(land_dir);
 		gtk_widget_set_size_request(map->creat, 4, 4);
@@ -170,9 +176,9 @@ void new_carn(int i){
 int main(int argc, char *argv[]){
 	map = g_malloc ( sizeof( Maps ) );
 	map->n_xy = 100;
-		
-	srand(time(NULL));
 	
+	if (argc>1) help(argc, argv);
+	srand(time(NULL));	
 	gtk_init (&argc, &argv);
 	
 	map->window = g_object_new( GTK_TYPE_WINDOW, "window-position", GTK_WIN_POS_CENTER,
