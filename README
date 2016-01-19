@@ -10,17 +10,19 @@ Before installation make sure, that GTK+ 2.0 is installed on your computer. For 
   
 When downloaded unpack/copy into chosen directory. To compile type:
   $ make all
+To install type
+  $ sudo make install
   
 2. Cleaning
-To clean directory, without source, type:
+To clean directory of C and object files, type:
   $ make clean
 
-To clean directory with source, type:
-  $ make clall
+To fully unistall, type:
+  $ sudo make clall
   
 3. Simulation 
-  To run simulation enter the directory where it is compiled and type:
-  ./lGoEv
+  To run simulation install it and type:
+  lGoEv
   The object of Little Game of Evolution is to pass Term project :)
   Choose the SPIECES combobox to choose field type to mark on the map (big white one).
   Choose RANDOM button to draw a map (it may be stupid).
