@@ -25,8 +25,9 @@ int i, h=0;
 		if(!(strcmp(args[i],"-h"))||!(strcmp(args[i],"--help"))){
 		h=1;} else continue;}
 	if(h){
-		g_print("Little Game of Evolution [HELP]\ntype:\tdir/lGoEv to play\nGTK+2.0 needed (type sudo apt-get install libgtk2.0-dev to install)\n");
+		g_print("Little Game of Evolution [HELP]\nVersion:\t1.0\ntype:\tdir/lGoEv to play\nGTK+2.0 needed (type sudo apt-get install libgtk2.0-dev to install)\n");
 		g_print("More in README\nHAVE FUN!!!\n");
+		g_print("acknowledgements\nSpecial thanks a lot to Maksymilian Pasek! He was author of struct MapFields. Also explained me a MVC model and g_timeout_add function.\n");
 	} else {
 	g_print("Little Game of Evolution\ntype:\tdir/lGoEv to play\ndir/lGoEv -h/--help to help\n");
 	}
